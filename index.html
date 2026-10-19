@@ -47,7 +47,7 @@ footer{text-align:center;color:#85859e;font-size:.78rem;padding-top:24px}
 <section class="panel"><h2>🎲 캐릭터 뽑기</h2><p class="sub">1회 50 코인 · 첫 시작 코인 100개</p><div class="pity"><span id="pitybar"></span></div><p class="sub" id="pityText">전설 확정까지 20회</p><button class="btn" id="draw">50 코인으로 뽑기!</button><div class="result" id="result"><div class="avatar">❔</div><div><div class="rarity">READY?</div><div class="name">운명의 뽑기</div><div class="statsline">어떤 송지섭이 나올까?</div></div></div><button class="btn secondary" id="daily">🎁 오늘의 코인 받기 (+100)</button><p class="notice">확률: 일반 51.9% · 레어 28% · 에픽 14% · 전설 5% · 초월 1% · 비밀 0.1%</p></section>
 <section class="panel"><h2>🗃️ 내 캐릭터</h2><p class="sub">전투에 내보낼 캐릭터를 선택해!</p><div class="roster" id="roster"><p class="sub">아직 캐릭터가 없어. 먼저 뽑아 봐!</p></div></section>
 </div>
-<section class="panel" style="margin-top:14px"><button class="btn secondary" id="dexToggle" aria-expanded="false">＋ 더보기 · 캐릭터 도감 <span id="dexCount" class="sub">0 / 21 발견</span></button><div id="dexContent" hidden><p class="sub">한 번이라도 뽑은 캐릭터가 등록돼! 미발견 캐릭터는 실루엣으로 표시.</p><div id="dex" class="dex"></div></div></section>
+<section class="panel" style="margin-top:14px"><button class="btn secondary" id="dexToggle" aria-expanded="false">＋ 더보기 · 캐릭터 도감 <span id="dexCount" class="sub">0 / 28 발견</span></button><div id="dexContent" hidden><p class="sub">한 번이라도 뽑은 캐릭터가 등록돼! 미발견 캐릭터는 실루엣으로 표시.</p><div id="dex" class="dex"></div></div></section>
 <section class="panel battlebox"><h2>🥊 자동 전투 아레나</h2><p class="sub" id="selected">전투할 캐릭터를 먼저 뽑아!</p><div class="arena"><div class="fighter" id="playerFighter"><div class="emoji" id="playerEmoji">🧍</div><b id="playerName">내 캐릭터</b><div class="bar"><span id="playerBar"></span></div><small id="playerHp">HP —</small></div><div class="vs">VS</div><div class="fighter" id="botFighter"><div class="emoji" id="botEmoji">🤖</div><b id="botName">수상한 봇</b><div class="bar"><span id="botBar"></span></div><small id="botHp">HP —</small></div></div><div class="log" id="log">아레나 입장 대기 중…</div><button class="btn" style="margin-top:12px" id="fight">⚔️ 봇과 자동 전투! (입장료 20 코인)</button><p class="notice">승리하면 +45 코인, 패배해도 경험은 남는다(?)</p></section>
 <footer>친구들끼리 즐기는 비공식 밈 게임 · 캐릭터는 랜덤 능력치로 생성됩니다.</footer>
 </main>
@@ -62,18 +62,19 @@ const tiers=[
  {key:"S",label:"비밀",min:101,max:120,emoji:["🦆"],weight:0.1}
 ];
 const characterDex=[
-{name:"대두몬스터",tier:"N",emoji:"👹"},{name:"지섭 기본폼",tier:"N",emoji:"🧍"},{name:"급식실의 지배자",tier:"N",emoji:"🥔"},{name:"복도 질주왕",tier:"N",emoji:"🧢"},
-{name:"매점 단골",tier:"R",emoji:"😎"},{name:"주스 수호자",tier:"R",emoji:"🧃"},{name:"복도 오리",tier:"R",emoji:"🦆"},{name:"킥보드 지섭",tier:"R",emoji:"🛴"},
-{name:"교실 최종보스",tier:"E",emoji:"🦹"},{name:"마법 지섭",tier:"E",emoji:"🧙"},{name:"급식 드래곤",tier:"E",emoji:"🐉"},{name:"강철 팔",tier:"E",emoji:"🦾"},
-{name:"전설의 지각생",tier:"L",emoji:"👑"},{name:"석상의 지섭",tier:"L",emoji:"🗿"},{name:"번개 지섭",tier:"L",emoji:"⚡"},{name:"황금 드래곤",tier:"L",emoji:"🐲"},
-{name:"각성 지섭",tier:"X",emoji:"🌌"},{name:"천리안 지섭",tier:"X",emoji:"👁️"},{name:"불꽃 지섭",tier:"X",emoji:"🔥"},{name:"차원 파괴자",tier:"X",emoji:"🌀"},{name:"자(덕)지섭",tier:"S",emoji:"🦆"}];
+{name:"대두몬스터",tier:"N",emoji:"👹"},{name:"지섭 기본폼",tier:"N",emoji:"🧍"},{name:"급식실의 지배자",tier:"N",emoji:"🥔"},{name:"복도 질주왕",tier:"N",emoji:"🧢"},{name:"책상 파괴자",tier:"N",emoji:"🪑"},{name:"지각 직전",tier:"N",emoji:"🏃"},{name:"숙제 까먹음",tier:"N",emoji:"📒"},{name:"매점 앞 대기줄",tier:"N",emoji:"🍞"},{name:"체육복 지섭",tier:"N",emoji:"👕"},{name:"졸린 지섭",tier:"N",emoji:"🥱"},
+{name:"매점 단골",tier:"R",emoji:"😎"},{name:"주스 수호자",tier:"R",emoji:"🧃"},{name:"복도 오리",tier:"R",emoji:"🦆"},{name:"킥보드 지섭",tier:"R",emoji:"🛴"},{name:"에너지 충전",tier:"R",emoji:"⚡"},{name:"간식 수집가",tier:"R",emoji:"🍪"},{name:"반장 지섭",tier:"R",emoji:"🎖️"},
+{name:"교실 최종보스",tier:"E",emoji:"🦹"},{name:"마법 지섭",tier:"E",emoji:"🧙"},{name:"급식 드래곤",tier:"E",emoji:"🐉"},{name:"강철 팔",tier:"E",emoji:"🦾"},{name:"폭주 지섭",tier:"E",emoji:"👺"},
+{name:"전설의 지각생",tier:"L",emoji:"👑"},{name:"석상의 지섭",tier:"L",emoji:"🗿"},{name:"번개 지섭",tier:"L",emoji:"⚡"},
+{name:"각성 지섭",tier:"X",emoji:"🌌"},{name:"천리안 지섭",tier:"X",emoji:"👁️"},
+{name:"자(덕)지섭",tier:"S",emoji:"🦆"}];
 const namesByTier=Object.fromEntries(["N","R","E","L","X","S"].map(k=>[k,characterDex.filter(x=>x.tier===k)]));
-const commonNames=["대두몬스터","지섭 기본폼","급식실의 지배자","복도 질주왕"];
+const commonNames=characterDex.filter(x=>x.tier==="N").map(x=>x.name);
 const taunts=["그게 네 최선이냐?","오늘 폼 미쳤다.","이건 계획된 패배다.","엄마가 밥 먹으래.","잠깐, 프레임 드랍임.","내 필살기는 급식 추가 배식!","선생님 오신다!","이 정도면 무승부 아니냐?"];
 const botNames=["계산기 봇","급식 평가 봇","와이파이 공유기","자신감 과다 봇","숙제 검사 봇","최종보스인 척하는 봇"];
 let state={coins:100,wins:0,units:[],selected:null,pity:0,daily:false};
 function rollTier(){let r=Math.random()*100;for(const t of tiers){if(r<t.weight)return t;r-=t.weight}return tiers[0]}
-function makeUnit(){let t;if(state.pity>=19){t=tiers[4];state.pity=0}else{t=rollTier();if(t.key==="L"||t.key==="X"||t.key==="S")state.pity=0;else state.pity++}let power=Math.floor(t.min+Math.random()*(t.max-t.min+1));return {id:Date.now()+Math.random(),tier:t.key,label:t.label,name:namesByTier[t.key][Math.floor(Math.random()*namesByTier[t.key].length)].name,emoji:(()=>{const d=namesByTier[t.key];return d[Math.floor(Math.random()*d.length)].emoji})(),power,hp:Math.round(power*8+35),atk:Math.round(power*.7+5),def:Math.round(power*.35+2),xp:0}}
+function makeUnit(){let t;if(state.pity>=19){t=tiers[4];state.pity=0}else{t=rollTier();if(t.key==="L"||t.key==="X"||t.key==="S")state.pity=0;else state.pity++}let power=Math.floor(t.min+Math.random()*(t.max-t.min+1));const character=namesByTier[t.key][Math.floor(Math.random()*namesByTier[t.key].length)];return {id:Date.now()+Math.random(),tier:t.key,label:t.label,name:character.name,emoji:character.emoji,power,hp:Math.round(power*8+35),atk:Math.round(power*.7+5),def:Math.round(power*.35+2),xp:0}}
 function tierOf(k){return tiers.find(t=>t.key===k)||tiers[0]}
 function renderDex(){const owned=new Set(state.units.map(u=>u.name));$("dexCount").textContent=characterDex.filter(x=>owned.has(x.name)).length+" / "+characterDex.length+" 발견";$("dex").innerHTML="";characterDex.forEach(ch=>{const got=owned.has(ch.name),card=document.createElement("div");card.className="dex-card"+(got?"":" locked");card.innerHTML='<span class="dex-emoji">'+(got?ch.emoji:"❔")+'</span><b class="grade-'+ch.tier+'">'+(got?ch.name:"미발견")+'</b><small>'+tierOf(ch.tier).label+'</small>';card.title=got?ch.name+" 발견 완료":"아직 발견하지 못한 캐릭터";$("dex").appendChild(card)})}
 function render(){ $("coins").textContent=state.coins;$("wins").textContent=state.wins;$("count").textContent=state.units.length;$("pitybar").style.width=(state.pity/20*100)+"%";$("pityText").textContent="전설/초월 보정까지 "+(20-state.pity)+"회 (연속 일반·레어·에픽이면 누적)";$("draw").disabled=state.coins<50;
