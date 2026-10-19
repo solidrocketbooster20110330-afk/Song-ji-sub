@@ -53,18 +53,19 @@ footer{text-align:center;color:#85859e;font-size:.78rem;padding-top:24px}
 <script>
 const $=id=>document.getElementById(id);
 const tiers=[
- {key:"N",label:"일반",min:10,max:24,emoji:["🧍","🥔","🧢","🪑"],weight:52},
+ {key:"N",label:"일반",min:10,max:24,emoji:["🧍","🥔","🧢","🪑","👹"],weight:52},
  {key:"R",label:"레어",min:22,max:40,emoji:["😎","🧃","🦆","🛴"],weight:28},
  {key:"E",label:"에픽",min:38,max:57,emoji:["🦹","🧙","🐉","🦾"],weight:14},
  {key:"L",label:"전설",min:58,max:78,emoji:["👑","🗿","⚡","🐲"],weight:5},
  {key:"X",label:"초월",min:80,max:100,emoji:["🌌","👁️","🔥","🌀"],weight:1}
 ];
 const names=["지섭 기본폼","급식실의 지배자","교실 최종보스","체육대회 MVP","수행평가 파괴자","매점의 제왕","말빨 만렙 지섭","복도 질주왕","전설의 지각생","각성 지섭","초월 지섭"];
+const commonNames=["대두몬스터","지섭 기본폼","급식실의 지배자","복도 질주왕"];
 const taunts=["그게 네 최선이냐?","오늘 폼 미쳤다.","이건 계획된 패배다.","엄마가 밥 먹으래.","잠깐, 프레임 드랍임.","내 필살기는 급식 추가 배식!","선생님 오신다!","이 정도면 무승부 아니냐?"];
 const botNames=["계산기 봇","급식 평가 봇","와이파이 공유기","자신감 과다 봇","숙제 검사 봇","최종보스인 척하는 봇"];
 let state={coins:100,wins:0,units:[],selected:null,pity:0,daily:false};
 function rollTier(){let r=Math.random()*100;for(const t of tiers){if(r<t.weight)return t;r-=t.weight}return tiers[0]}
-function makeUnit(){let t;if(state.pity>=19){t=tiers[4];state.pity=0}else{t=rollTier();if(t.key==="L"||t.key==="X")state.pity=0;else state.pity++}let power=Math.floor(t.min+Math.random()*(t.max-t.min+1));return {id:Date.now()+Math.random(),tier:t.key,label:t.label,name:names[Math.floor(Math.random()*names.length)],emoji:t.emoji[Math.floor(Math.random()*t.emoji.length)],power,hp:Math.round(power*8+35),atk:Math.round(power*.7+5),def:Math.round(power*.35+2),xp:0}}
+function makeUnit(){let t;if(state.pity>=19){t=tiers[4];state.pity=0}else{t=rollTier();if(t.key==="L"||t.key==="X")state.pity=0;else state.pity++}let power=Math.floor(t.min+Math.random()*(t.max-t.min+1));return {id:Date.now()+Math.random(),tier:t.key,label:t.label,name:t.key==="N"?commonNames[Math.floor(Math.random()*commonNames.length)]:names[Math.floor(Math.random()*names.length)],emoji:t.emoji[Math.floor(Math.random()*t.emoji.length)],power,hp:Math.round(power*8+35),atk:Math.round(power*.7+5),def:Math.round(power*.35+2),xp:0}}
 function tierOf(k){return tiers.find(t=>t.key===k)||tiers[0]}
 function render(){ $("coins").textContent=state.coins;$("wins").textContent=state.wins;$("count").textContent=state.units.length;$("pitybar").style.width=(state.pity/20*100)+"%";$("pityText").textContent="전설/초월 보정까지 "+(20-state.pity)+"회 (연속 일반·레어·에픽이면 누적)";$("draw").disabled=state.coins<50;
 let roster=$("roster");roster.innerHTML="";if(!state.units.length)roster.innerHTML='<p class="sub">아직 캐릭터가 없어. 먼저 뽑아 봐!</p>';else [...state.units].reverse().forEach(u=>{let row=document.createElement("div");row.className="unit";row.innerHTML='<span class="mini">'+u.emoji+'</span><div class="grow"><b class="grade-'+u.tier+'">'+u.name+'</b><small><span class="grade-'+u.tier+'">'+u.label+'</span> · 전투력 '+u.power+' · 레벨 '+(1+Math.floor(u.xp/3))+'</small></div><button>출전</button>';row.querySelector("button").onclick=()=>{state.selected=u.id;render();$("selected").textContent="출전 캐릭터: "+u.name};roster.appendChild(row)});
