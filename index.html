@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#111126">
+<title>송지섭 뽑기 대전</title>
+<style>
+:root{color-scheme:dark;--bg:#10101b;--panel:#1a1a2b;--muted:#a6a6bf;--line:#35354e;--gold:#ffd166;--purple:#9b87ff}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#29204a 0,#10101b 55%);color:#f7f5ff;font-family:system-ui,-apple-system,"Noto Sans KR",sans-serif;min-height:100vh}
+main{max-width:980px;margin:auto;padding:22px 16px 50px}.hero{text-align:center;padding:22px 0 18px}.eyebrow{color:#c2b6ff;font-weight:800;letter-spacing:.17em;font-size:.78rem}.hero h1{font-size:clamp(2rem,7vw,3.4rem);line-height:1.1;margin:10px 0}.hero p{color:var(--muted);margin:0}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0}.stat,.panel{background:#1a1a2beF;border:1px solid var(--line);border-radius:18px;padding:15px}.stat small{display:block;color:var(--muted);font-weight:700}.stat strong{font-size:1.35rem}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.panel h2{font-size:1.13rem;margin:0 0 12px}.sub{color:var(--muted);font-size:.9rem}.btn{appearance:none;border:0;border-radius:12px;background:linear-gradient(110deg,#9b87ff,#7460e8);color:white;font:inherit;font-weight:850;padding:13px 15px;width:100%;cursor:pointer;box-shadow:0 5px 0 #4b3da3;transition:transform .1s}.btn:active{transform:translateY(3px);box-shadow:0 2px 0 #4b3da3}.btn.secondary{background:#292940;box-shadow:0 4px 0 #171728;border:1px solid var(--line)}.btn:disabled{opacity:.45;cursor:not-allowed}
+.pity{height:8px;background:#33334a;border-radius:99px;overflow:hidden;margin:9px 0 14px}.pity span{display:block;height:100%;background:var(--gold);width:0;transition:width .25s}
+.result{min-height:135px;display:flex;align-items:center;gap:15px;border:1px dashed #4b466e;border-radius:14px;padding:14px;margin:14px 0}.avatar{height:78px;width:78px;display:grid;place-items:center;border-radius:17px;background:#29243e;font-size:2.3rem;flex-shrink:0}.rarity{font-size:.77rem;font-weight:900;letter-spacing:.1em}.name{font-size:1.28rem;font-weight:900;margin:4px 0}.statsline{color:var(--muted);font-size:.9rem}.grade-N{color:#d3d3df}.grade-R{color:#6ce4a3}.grade-E{color:#72b8ff}.grade-L{color:#d5a0ff}.grade-X{color:var(--gold)}
+.roster{display:grid;gap:8px;max-height:310px;overflow:auto}.unit{display:flex;align-items:center;gap:10px;background:#222238;padding:10px;border-radius:12px}.unit .mini{font-size:1.4rem}.unit .grow{flex:1;min-width:0}.unit b{display:block}.unit small{color:var(--muted)}.unit button{background:#363652;border:1px solid #4a4a68;color:white;border-radius:9px;padding:7px 9px;font-weight:750}
+.battlebox{margin-top:14px}.arena{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;text-align:center;background:#11111f;border-radius:14px;padding:16px}.fighter{min-width:0}.fighter .emoji{font-size:2.6rem}.fighter b{display:block;overflow-wrap:anywhere}.vs{color:var(--gold);font-weight:1000}.bar{height:9px;border-radius:20px;background:#3a2436;overflow:hidden;margin:8px 0}.bar span{display:block;background:#ff647c;height:100%;width:100%;transition:width .2s}.log{margin-top:12px;padding:12px;background:#11111f;border-radius:12px;min-height:80px;font-size:.9rem;line-height:1.65;white-space:pre-line}.notice{color:#d0c9ff;font-size:.85rem;margin-top:10px}
+footer{text-align:center;color:#85859e;font-size:.78rem;padding-top:24px}
+@media(max-width:680px){.grid{grid-template-columns:1fr}.stats{gap:7px}.stat{padding:11px}.stat strong{font-size:1.15rem}.arena{padding:12px 7px}.fighter .emoji{font-size:2.1rem}.panel{padding:13px}}
+</style>
+</head>
+<body><main>
+<header class="hero"><div class="eyebrow">UNOFFICIAL MEME BATTLE SIMULATOR</div><h1>🎰 송지섭 뽑기 대전</h1><p>운빨로 뽑고, 육성하고, 봇을 상대로 자동 맞짱!</p></header>
+<section class="stats">
+<div class="stat"><small>🪙 보유 코인</small><strong id="coins">100</strong></div><div class="stat"><small>🏆 승리</small><strong id="wins">0</strong></div><div class="stat"><small>🧑‍🤝‍🧑 보유 캐릭터</small><strong id="count">0</strong></div>
+</section>
+<div class="grid">
+<section class="panel"><h2>🎲 캐릭터 뽑기</h2><p class="sub">1회 50 코인 · 첫 시작 코인 100개</p><div class="pity"><span id="pitybar"></span></div><p class="sub" id="pityText">전설 확정까지 20회</p><button class="btn" id="draw">50 코인으로 뽑기!</button><div class="result" id="result"><div class="avatar">❔</div><div><div class="rarity">READY?</div><div class="name">운명의 뽑기</div><div class="statsline">어떤 송지섭이 나올까?</div></div></div><button class="btn secondary" id="daily">🎁 오늘의 코인 받기 (+100)</button><p class="notice">확률: 일반 52% · 레어 28% · 에픽 14% · 전설 5% · 초월 1%</p></section>
+<section class="panel"><h2>🗃️ 내 캐릭터</h2><p class="sub">전투에 내보낼 캐릭터를 선택해!</p><div class="roster" id="roster"><p class="sub">아직 캐릭터가 없어. 먼저 뽑아 봐!</p></div></section>
+</div>
+<section class="panel battlebox"><h2>🥊 자동 전투 아레나</h2><p class="sub" id="selected">전투할 캐릭터를 먼저 뽑아!</p><div class="arena"><div class="fighter"><div class="emoji" id="playerEmoji">🧍</div><b id="playerName">내 캐릭터</b><div class="bar"><span id="playerBar"></span></div><small id="playerHp">HP —</small></div><div class="vs">VS</div><div class="fighter"><div class="emoji" id="botEmoji">🤖</div><b id="botName">수상한 봇</b><div class="bar"><span id="botBar"></span></div><small id="botHp">HP —</small></div></div><div class="log" id="log">아레나 입장 대기 중…</div><button class="btn" style="margin-top:12px" id="fight">⚔️ 봇과 자동 전투! (입장료 20 코인)</button><p class="notice">승리하면 +45 코인, 패배해도 경험은 남는다(?)</p></section>
+<footer>친구들끼리 즐기는 비공식 밈 게임 · 캐릭터는 랜덤 능력치로 생성됩니다.</footer>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const tiers=[
+ {key:"N",label:"일반",min:10,max:24,emoji:["🧍","🥔","🧢","🪑"],weight:52},
+ {key:"R",label:"레어",min:22,max:40,emoji:["😎","🧃","🦆","🛴"],weight:28},
+ {key:"E",label:"에픽",min:38,max:57,emoji:["🦹","🧙","🐉","🦾"],weight:14},
+ {key:"L",label:"전설",min:58,max:78,emoji:["👑","🗿","⚡","🐲"],weight:5},
+ {key:"X",label:"초월",min:80,max:100,emoji:["🌌","👁️","🔥","🌀"],weight:1}
+];
+const names=["지섭 기본폼","급식실의 지배자","교실 최종보스","체육대회 MVP","수행평가 파괴자","매점의 제왕","말빨 만렙 지섭","복도 질주왕","전설의 지각생","각성 지섭","초월 지섭"];
+const taunts=["그게 네 최선이냐?","오늘 폼 미쳤다.","이건 계획된 패배다.","엄마가 밥 먹으래.","잠깐, 프레임 드랍임.","내 필살기는 급식 추가 배식!","선생님 오신다!","이 정도면 무승부 아니냐?"];
+const botNames=["계산기 봇","급식 평가 봇","와이파이 공유기","자신감 과다 봇","숙제 검사 봇","최종보스인 척하는 봇"];
+let state={coins:100,wins:0,units:[],selected:null,pity:0,daily:false};
+function rollTier(){let r=Math.random()*100;for(const t of tiers){if(r<t.weight)return t;r-=t.weight}return tiers[0]}
+function makeUnit(){let t;if(state.pity>=19){t=tiers[4];state.pity=0}else{t=rollTier();if(t.key==="L"||t.key==="X")state.pity=0;else state.pity++}let power=Math.floor(t.min+Math.random()*(t.max-t.min+1));return {id:Date.now()+Math.random(),tier:t.key,label:t.label,name:names[Math.floor(Math.random()*names.length)],emoji:t.emoji[Math.floor(Math.random()*t.emoji.length)],power,hp:Math.round(power*8+35),atk:Math.round(power*.7+5),def:Math.round(power*.35+2),xp:0}}
+function tierOf(k){return tiers.find(t=>t.key===k)||tiers[0]}
+function render(){ $("coins").textContent=state.coins;$("wins").textContent=state.wins;$("count").textContent=state.units.length;$("pitybar").style.width=(state.pity/20*100)+"%";$("pityText").textContent="전설/초월 보정까지 "+(20-state.pity)+"회 (연속 일반·레어·에픽이면 누적)";$("draw").disabled=state.coins<50;
+let roster=$("roster");roster.innerHTML="";if(!state.units.length)roster.innerHTML='<p class="sub">아직 캐릭터가 없어. 먼저 뽑아 봐!</p>';else [...state.units].reverse().forEach(u=>{let row=document.createElement("div");row.className="unit";row.innerHTML='<span class="mini">'+u.emoji+'</span><div class="grow"><b class="grade-'+u.tier+'">'+u.name+'</b><small><span class="grade-'+u.tier+'">'+u.label+'</span> · 전투력 '+u.power+' · 레벨 '+(1+Math.floor(u.xp/3))+'</small></div><button>출전</button>';row.querySelector("button").onclick=()=>{state.selected=u.id;render();$("selected").textContent="출전 캐릭터: "+u.name};roster.appendChild(row)});
+let u=state.units.find(x=>x.id===state.selected);if(!u&&state.units.length){u=state.units[0];state.selected=u.id}if(u){$("selected").textContent="출전 캐릭터: "+u.name+" · "+u.label+" · 전투력 "+u.power}else $("selected").textContent="전투할 캐릭터를 먼저 뽑아!"}
+function showResult(u){$("result").innerHTML='<div class="avatar">'+u.emoji+'</div><div><div class="rarity grade-'+u.tier+'">'+u.label.toUpperCase()+' · POWER '+u.power+'</div><div class="name">'+u.name+'</div><div class="statsline">공격 '+u.atk+' · 방어 '+u.def+' · 체력 '+u.hp+'</div></div>'; }
+$("draw").onclick=()=>{if(state.coins<50)return;state.coins-=50;let u=makeUnit();state.units.push(u);state.selected=u.id;showResult(u);render();$("log").textContent="🎉 "+u.label+" 등급 획득! "+u.name+"의 전투력은 "+u.power+".";};
+$("daily").onclick=()=>{if(state.daily){$("log").textContent="오늘 보상은 이미 받았어. 내일 다시 와!";return}state.coins+=100;state.daily=true;$("daily").disabled=true;$("daily").textContent="✅ 오늘 보상 수령 완료";render();$("log").textContent="🎁 코인 100개 지급! 오늘도 운빨 대폭발 가자."};
+$("fight").onclick=()=>{let p=state.units.find(u=>u.id===state.selected);if(!p){$("log").textContent="캐릭터부터 뽑아 줘!";return}if(state.coins<20){$("log").textContent="코인이 부족해! 무료 보상을 받아.";return}state.coins-=20;$("fight").disabled=true;let botPower=Math.max(8,Math.round(12+Math.random()*62+state.wins*1.4));let b={name:botNames[Math.floor(Math.random()*botNames.length)],emoji:["🤖","👾","🧠","🧹"][Math.floor(Math.random()*4)],power:botPower,atk:Math.round(botPower*.72+4),def:Math.round(botPower*.3+2),hp:Math.round(botPower*8+35)};let ph=p.hp,bh=b.hp,lines=["🚨 전투 시작! "+p.name+" vs "+b.name];$("playerEmoji").textContent=p.emoji;$("playerName").textContent=p.name;$("botEmoji").textContent=b.emoji;$("botName").textContent=b.name;$("log").textContent=lines[0];let turn=0;
+const tick=()=>{turn++;if(turn%2){let dmg=Math.max(3,p.atk+Math.floor(Math.random()*10)-b.def*.35);bh=Math.max(0,bh-dmg);lines.push("💥 "+p.name+" 사용: "+taunts[Math.floor(Math.random()*taunts.length)]+" (-"+Math.round(dmg)+" HP)")}else{let dmg=Math.max(3,b.atk+Math.floor(Math.random()*9)-p.def*.35);ph=Math.max(0,ph-dmg);lines.push("🤖 "+b.name+" 반격! (-"+Math.round(dmg)+" HP)")} $("playerBar").style.width=ph/p.hp*100+"%";$("botBar").style.width=bh/b.hp*100+"%";$("playerHp").textContent="HP "+Math.round(ph)+" / "+p.hp;$("botHp").textContent="HP "+Math.round(bh)+" / "+b.hp;$("log").textContent=lines.slice(-6).join("\n");if(ph<=0||bh<=0||turn>=14){let win=bh<=0||(ph>bh&&turn>=14);if(ph<=0)win=false;if(bh>0&&ph>0&&turn>=14)win=ph/p.hp>=bh/b.hp; if(win){state.wins++;state.coins+=45;p.xp++;lines.push("🏆 승리! 코인 +45 · 캐릭터 경험치 +1");}else{lines.push("🪦 패배… 참가상은 없다. 하지만 다음엔 모른다.");}state.coins=Math.max(0,state.coins);$("log").textContent=lines.slice(-8).join("\n");$("fight").disabled=false;render();return}setTimeout(tick,550)};tick()};
+render();
+</script></body></html>
