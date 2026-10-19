@@ -44,7 +44,7 @@ footer{text-align:center;color:#85859e;font-size:.78rem;padding-top:24px}
 <div class="stat"><small>🪙 보유 코인</small><strong id="coins">100</strong></div><div class="stat"><small>🏆 승리</small><strong id="wins">0</strong></div><div class="stat"><small>🧑‍🤝‍🧑 보유 캐릭터</small><strong id="count">0</strong></div>
 </section>
 <div class="grid">
-<section class="panel"><h2>🎲 캐릭터 뽑기</h2><p class="sub">1회 50 코인 · 첫 시작 코인 100개</p><div class="pity"><span id="pitybar"></span></div><p class="sub" id="pityText">전설 확정까지 20회</p><button class="btn" id="draw">50 코인으로 뽑기!</button><div class="result" id="result"><div class="avatar">❔</div><div><div class="rarity">READY?</div><div class="name">운명의 뽑기</div><div class="statsline">어떤 송지섭이 나올까?</div></div></div><button class="btn secondary" id="daily">🎁 오늘의 코인 받기 (+100)</button><p class="notice">확률: 대두 몬스터 30% · 나머지 커먼 5종 합계 25% · 레어 30% · 에픽 10% · 신화 4% · 전설 0.9% · 비밀 0.1%</p></section>
+<section class="panel"><h2>🎲 캐릭터 뽑기</h2><p class="sub">1회 50 코인 · 첫 시작 코인 100개</p><div class="pity"><span id="pitybar"></span></div><p class="sub" id="pityText">전설 확정까지 20회</p><button class="btn" id="draw">50 코인으로 뽑기!</button><div class="result" id="result"><div class="avatar">❔</div><div><div class="rarity">READY?</div><div class="name">운명의 뽑기</div><div class="statsline">어떤 송지섭이 나올까?</div></div></div><button class="btn secondary" id="daily">🎁 오늘의 코인 받기 (+100)</button><p class="notice">확률: 기본 송지섭(커먼) 55% · 대두 몬스터(레어) 30% · 에픽 10% · 신화 4% · 전설 0.9% · 비밀 0.1%</p></section>
 <section class="panel"><h2>🗃️ 내 캐릭터</h2><p class="sub">전투에 내보낼 캐릭터를 선택해!</p><div class="roster" id="roster"><p class="sub">아직 캐릭터가 없어. 먼저 뽑아 봐!</p></div></section>
 </div>
 <section class="panel" style="margin-top:14px"><button class="btn secondary" id="dexToggle" aria-expanded="false">＋ 더보기 · 캐릭터 도감 <span id="dexCount" class="sub">0 / 21 발견</span></button><div id="dexContent" hidden><p class="sub">한 번이라도 뽑은 캐릭터가 등록돼! 미발견 캐릭터는 실루엣으로 표시.</p><div id="dex" class="dex"></div></div></section>
@@ -54,16 +54,16 @@ footer{text-align:center;color:#85859e;font-size:.78rem;padding-top:24px}
 <script>
 const $=id=>document.getElementById(id);
 const tiers=[
- {key:"N",label:"커먼",min:10,max:24,emoji:["🧍","🥔","🧢","🪑","👹"],weight:25},
- {key:"R",label:"레어",min:22,max:40,emoji:["😎","🧃","🦆","🛴"],weight:30},
- {key:"E",label:"에픽",min:38,max:57,emoji:["🦹","🧙","🐉","🦾"],weight:10},
- {key:"L",label:"신화",min:58,max:78,emoji:["👑","🗿","⚡","🐲"],weight:4},
- {key:"X",label:"전설",min:80,max:100,emoji:["🌌","👁️","🔥","🌀"],weight:0.9},
+ {key:"N",label:"커먼",min:10,max:24,emoji:["🧍"],weight:55},
+ {key:"R",label:"레어",min:22,max:40,emoji:["👹"],weight:30},
+ {key:"E",label:"에픽",min:38,max:57,emoji:["🦹","🧙","🐉"],weight:10},
+ {key:"L",label:"신화",min:58,max:78,emoji:["👑","🗿"],weight:4},
+ {key:"X",label:"전설",min:80,max:100,emoji:["🌌","👁️"],weight:0.9},
  {key:"S",label:"비밀",min:101,max:120,emoji:["🦆"],weight:0.1}
 ];
 const characterDex=[
-{name:"커먼 1",tier:"N",emoji:"🧍"},{name:"커먼 2",tier:"N",emoji:"🥔"},{name:"커먼 3",tier:"N",emoji:"🧢"},{name:"커먼 4",tier:"N",emoji:"🪑"},{name:"커먼 5",tier:"N",emoji:"👹"},{name:"대두 몬스터",tier:"N",emoji:"👹"},
-{name:"레어 1",tier:"R",emoji:"😎"},{name:"레어 2",tier:"R",emoji:"🧃"},{name:"레어 3",tier:"R",emoji:"🦆"},{name:"레어 4",tier:"R",emoji:"🛴"},
+{name:"기본 송지섭",tier:"N",emoji:"🧍"},
+{name:"대두 몬스터",tier:"R",emoji:"👹"},
 {name:"에픽 1",tier:"E",emoji:"🦹"},{name:"에픽 2",tier:"E",emoji:"🧙"},{name:"에픽 3",tier:"E",emoji:"🐉"},
 {name:"신화 1",tier:"L",emoji:"👑"},{name:"신화 2",tier:"L",emoji:"🗿"},
 {name:"전설 1",tier:"X",emoji:"🌌"},{name:"전설 2",tier:"X",emoji:"👁️"},
