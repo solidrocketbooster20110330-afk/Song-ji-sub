@@ -48,7 +48,8 @@ footer{text-align:center;color:#85859e;font-size:.78rem;padding-top:24px}
 <section class="panel"><h2>🗃️ 내 캐릭터</h2><p class="sub">전투에 내보낼 캐릭터를 선택해!</p><div class="roster" id="roster"><p class="sub">아직 캐릭터가 없어. 먼저 뽑아 봐!</p></div></section>
 </div>
 <section class="panel" style="margin-top:14px"><button class="btn secondary" id="dexToggle" aria-expanded="false">＋ 더보기 · 캐릭터 도감 <span id="dexCount" class="sub">0 / 21 발견</span></button><div id="dexContent" hidden><p class="sub">한 번이라도 뽑은 캐릭터가 등록돼! 미발견 캐릭터는 실루엣으로 표시.</p><div id="dex" class="dex"></div></div></section>
-<section class="panel battlebox"><h2>🥊 자동 전투 아레나</h2><p class="sub" id="selected">전투할 캐릭터를 먼저 뽑아!</p><div class="arena"><div class="fighter" id="playerFighter"><div class="emoji" id="playerEmoji">🧍</div><b id="playerName">내 캐릭터</b><div class="bar"><span id="playerBar"></span></div><small id="playerHp">HP —</small></div><div class="vs">VS</div><div class="fighter" id="botFighter"><div class="emoji" id="botEmoji">🤖</div><b id="botName">수상한 봇</b><div class="bar"><span id="botBar"></span></div><small id="botHp">HP —</small></div></div><div class="log" id="log">아레나 입장 대기 중…</div><div class="sub" style="margin-top:12px">💥 필살기 게이지 <b id="specialText">0 / 100</b></div><div class="pity"><span id="specialBar" style="background:linear-gradient(90deg,#ff6bd6,#ffd166)"></span></div><button class="btn" style="margin-top:12px" id="fight">⚔️ 자동 전투 시작 (입장료 20 코인)</button><p class="notice">전투는 자동 진행! 공격이 적중할 때마다 필살기 게이지가 차고, 100%가 되면 강력한 필살기를 자동 발동해.</p><p class="notice">승리하면 +45 코인 및 경험치 +1</p></section>
+<section class="panel" style="margin-top:14px"><h2>🛠️ 관리자 모드</h2><p class="sub">관리자 코드를 입력하면 무한 코인을 켤 수 있어.</p><div style="display:flex;gap:8px"><input id="adminCode" type="password" inputmode="numeric" placeholder="관리자 코드" style="min-width:0;flex:1;background:#222238;color:white;border:1px solid #4a4a68;border-radius:10px;padding:10px"><button class="btn secondary" id="adminLogin" style="width:auto">확인</button></div><p class="notice" id="adminStatus">관리자 모드 비활성</p></section>
+<section class="panel" style="margin-top:14px"><h2>🎒 전리품</h2><p class="sub">전투 경험치가 쌓이면 전리품 레벨이 올라가고 효과가 강해져.</p><div id="lootStatus">전리품 레벨 1 · 효과 +10% · XP 0 / 5</div></section>\n<section class="panel battlebox"><h2>🥊 자동 전투 아레나</h2><p class="sub" id="selected">전투할 캐릭터를 먼저 뽑아!</p><div class="arena"><div class="fighter" id="playerFighter"><div class="emoji" id="playerEmoji">🧍</div><b id="playerName">내 캐릭터</b><div class="bar"><span id="playerBar"></span></div><small id="playerHp">HP —</small></div><div class="vs">VS</div><div class="fighter" id="botFighter"><div class="emoji" id="botEmoji">🤖</div><b id="botName">수상한 봇</b><div class="bar"><span id="botBar"></span></div><small id="botHp">HP —</small></div></div><div class="log" id="log">아레나 입장 대기 중…</div><div class="sub" style="margin-top:12px">💥 필살기 게이지 <b id="specialText">0 / 100</b></div><div class="pity"><span id="specialBar" style="background:linear-gradient(90deg,#ff6bd6,#ffd166)"></span></div><div style="display:flex;gap:8px;margin-top:12px"><select id="battleSpeed" aria-label="전투 배속" style="background:#222238;color:white;border:1px solid #4a4a68;border-radius:10px;padding:10px"><option value="1">1x</option><option value="2">2x</option><option value="3">3x</option></select><label style="display:flex;align-items:center;gap:6px;font-size:.85rem"><input id="continuous" type="checkbox" checked> 연속 전투</label></div><button class="btn" style="margin-top:12px" id="fight">⚔️ 자동 전투 시작 (입장료 20 코인)</button><p class="notice">전투는 자동 진행! 공격이 적중할 때마다 필살기 게이지가 차고, 100%가 되면 강력한 필살기를 자동 발동해.</p><p class="notice">승리하면 +45 코인 및 경험치 +1</p></section>
 <footer>친구들끼리 즐기는 비공식 밈 게임 · 캐릭터는 랜덤 능력치로 생성됩니다.</footer>
 </main>
 <script>
@@ -72,12 +73,12 @@ const namesByTier=Object.fromEntries(["N","R","E","L","X","S"].map(k=>[k,charact
 const commonNames=characterDex.filter(x=>x.tier==="N").map(x=>x.name);
 const taunts=["그게 네 최선이냐?","오늘 폼 미쳤다.","이건 계획된 패배다.","엄마가 밥 먹으래.","잠깐, 프레임 드랍임.","내 필살기는 급식 추가 배식!","선생님 오신다!","이 정도면 무승부 아니냐?"];
 const botNames=["계산기 봇","급식 평가 봇","와이파이 공유기","자신감 과다 봇","숙제 검사 봇","최종보스인 척하는 봇"];
-let state={coins:100,wins:0,units:[],selected:null,pity:0,daily:false};
+let state={coins:100,wins:0,units:[],selected:null,pity:0,daily:false,admin:false,xp:0,lootLevel:1};
 function rollTier(){let r=Math.random()*100;const common=namesByTier.N;const daedu=common.find(ch=>ch.name==="대두 몬스터");const others=common.filter(ch=>ch.name!=="대두 몬스터");if(r<30)return {...tiers[0],forcedCharacter:daedu};if(r<55)return {...tiers[0],forcedCharacter:others[Math.floor(Math.random()*others.length)]};r-=55;for(const t of tiers.slice(1)){if(r<t.weight)return t;r-=t.weight}return tiers[1]}
 function makeUnit(){let t;if(state.pity>=19){t=tiers[4];state.pity=0}else{t=rollTier();if(t.key==="L"||t.key==="X"||t.key==="S")state.pity=0;else state.pity++}let power=Math.floor(t.min+Math.random()*(t.max-t.min+1));const character=t.forcedCharacter||namesByTier[t.key][Math.floor(Math.random()*namesByTier[t.key].length)];return {id:Date.now()+Math.random(),tier:t.key,label:t.label,name:character.name,emoji:character.emoji,power,hp:Math.round(power*8+35),atk:Math.round(power*.7+5),def:Math.round(power*.35+2),xp:0}}
 function tierOf(k){return tiers.find(t=>t.key===k)||tiers[0]}
 function renderDex(){const owned=new Set(state.units.map(u=>u.name));$("dexCount").textContent=characterDex.filter(x=>owned.has(x.name)).length+" / "+characterDex.length+" 발견";$("dex").innerHTML="";characterDex.forEach(ch=>{const got=owned.has(ch.name),card=document.createElement("div");card.className="dex-card"+(got?"":" locked");card.innerHTML='<span class="dex-emoji">'+(got?ch.emoji:"❔")+'</span><b class="grade-'+ch.tier+'">'+(got?ch.name:"미발견")+'</b><small>'+tierOf(ch.tier).label+'</small>';card.title=got?ch.name+" 발견 완료":"아직 발견하지 못한 캐릭터";$("dex").appendChild(card)})}
-function render(){ $("coins").textContent=state.coins;$("wins").textContent=state.wins;$("count").textContent=state.units.length;$("pitybar").style.width=(state.pity/20*100)+"%";$("pityText").textContent="전설 확정까지 "+(20-state.pity)+"회 (연속 일반·레어·에픽이면 누적)";$("draw").disabled=state.coins<50;
+function render(){ $("coins").textContent=state.coins;$("wins").textContent=state.wins;$("count").textContent=state.units.length;$("pitybar").style.width=(state.pity/20*100)+"%";$("pityText").textContent="전설 확정까지 "+(20-state.pity)+"회 (연속 일반·레어·에픽이면 누적)";$("draw").disabled=!state.admin&&state.coins<50;
 renderDex();let roster=$("roster");roster.innerHTML="";if(!state.units.length)roster.innerHTML='<p class="sub">아직 캐릭터가 없어. 먼저 뽑아 봐!</p>';else [...state.units].reverse().forEach(u=>{let row=document.createElement("div");row.className="unit";row.innerHTML='<span class="mini">'+u.emoji+'</span><div class="grow"><b class="grade-'+u.tier+'">'+u.name+'</b><small><span class="grade-'+u.tier+'">'+u.label+'</span> · 전투력 '+u.power+' · 레벨 '+(1+Math.floor(u.xp/3))+'</small></div><button>출전</button>';row.querySelector("button").onclick=()=>{state.selected=u.id;render();$("selected").textContent="출전 캐릭터: "+u.name};roster.appendChild(row)});
 let u=state.units.find(x=>x.id===state.selected);if(!u&&state.units.length){u=state.units[0];state.selected=u.id}if(u){$("selected").textContent="출전 캐릭터: "+u.name+" · "+u.label+" · 전투력 "+u.power}else $("selected").textContent="전투할 캐릭터를 먼저 뽑아!"}
 function showResult(u){$("result").innerHTML='<div class="avatar">'+u.emoji+'</div><div><div class="rarity grade-'+u.tier+'">'+u.label.toUpperCase()+' · POWER '+u.power+'</div><div class="name">'+u.name+'</div><div class="statsline">공격 '+u.atk+' · 방어 '+u.def+' · 체력 '+u.hp+'</div></div>'; }
@@ -92,9 +93,9 @@ function animateHit(attacker,defender){
 }
 
 $("dexToggle").onclick=()=>{const content=$("dexContent"),open=content.hidden;content.hidden=!open;$("dexToggle").setAttribute("aria-expanded",String(open));$("dexToggle").innerHTML=(open?"－ 접기 · 캐릭터 도감 ":"＋ 더보기 · 캐릭터 도감 ")+'<span id="dexCount" class="sub">'+characterDex.filter(x=>new Set(state.units.map(u=>u.name)).has(x.name)).length+" / "+characterDex.length+" 발견</span>";};
-$("draw").onclick=()=>{if(state.coins<50)return;state.coins-=50;let u=makeUnit();state.units.push(u);state.selected=u.id;showResult(u);render();$("log").textContent="🎉 "+u.label+" 등급 획득! "+u.name+"의 전투력은 "+u.power+".";};
-$("daily").onclick=()=>{if(state.daily){$("log").textContent="오늘 보상은 이미 받았어. 내일 다시 와!";return}state.coins+=100;state.daily=true;$("daily").disabled=true;$("daily").textContent="✅ 오늘 보상 수령 완료";render();$("log").textContent="🎁 코인 100개 지급! 오늘도 운빨 대폭발 가자."};
-let battle=null,battleTimer=null;
+$("draw").onclick=()=>{if(!state.admin&&state.coins<50)return;if(!state.admin)state.coins-=50;let u=makeUnit();state.units.push(u);if(!state.selected)state.selected=u.id;showResult(u);render();$("log").textContent="🎉 "+u.label+" 등급 획득! "+u.name+"의 전투력은 "+u.power+".";};
+$("daily").onclick=()=>{if(state.daily){$("log").textContent="오늘 보상은 이미 받았어. 내일 다시 와!";return}if(!state.admin)state.coins+=100;state.daily=true;$("daily").disabled=true;$("daily").textContent="✅ 오늘 보상 수령 완료";render();$("log").textContent="🎁 코인 100개 지급! 오늘도 운빨 대폭발 가자."};
+let battle=null,battleTimer=null,chainTimer=null;
 function updateBattleUI(){
  if(!battle)return;
  $("playerBar").style.width=Math.max(0,battle.ph/battle.p.hp*100)+"%";
@@ -108,10 +109,10 @@ function finishBattle(){
  if(!battle)return;
  const p=battle.p,b=battle.b,win=battle.bh<=0;
  if(battleTimer){clearInterval(battleTimer);battleTimer=null}
- if(win){state.wins++;state.coins+=45;p.xp++;battle.lines.push("🏆 승리! 코인 +45 · 캐릭터 경험치 +1");}
+ if(win){state.wins++;if(!state.admin)state.coins+=45;p.xp++;state.xp++;if(state.xp>=5){state.xp-=5;state.lootLevel++;}battle.lines.push("🏆 승리! 코인 +45 · 캐릭터 경험치 +1 · 전리품 성장");}
  else battle.lines.push("💀 패배! 다음 전투에서 복수하자.");
  $("log").textContent=battle.lines.slice(-8).join("\n");
- battle=null;$("fight").disabled=false;$("fight").textContent="⚔️ 다시 전투 시작 (입장료 20 코인)";render();
+ battle=null;$("fight").disabled=false;$("fight").textContent="⚔️ 다시 전투 시작 (입장료 20 코인)";render();if(win&&$("continuous").checked){chainTimer=setTimeout(()=>$("fight").click(),650)}
 }
 function autoBattleTurn(){
  if(!battle)return;
@@ -149,7 +150,7 @@ $("fight").onclick=()=>{
  battle={p,b,ph:p.hp,bh:b.hp,charge:0,lines:["🚨 자동 전투 시작! "+p.name+" vs "+b.name]};
  $("playerEmoji").textContent=p.emoji;$("playerName").textContent=p.name;$("botEmoji").textContent=b.emoji;$("botName").textContent=b.name;
  $("log").textContent=battle.lines[0];$("fight").disabled=true;$("fight").textContent="🥊 자동 전투 진행 중";updateBattleUI();render();
- battleTimer=setInterval(autoBattleTurn,1100);
+ battleTimer=setInterval(autoBattleTurn,1100/Number($("battleSpeed").value||1));
 };
 render();
 </script></body></html>
