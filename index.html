@@ -148,8 +148,11 @@ $("fight").onclick=()=>{
  if(!p){$("log").textContent="먼저 캐릭터를 뽑고 출전시켜 줘!";return;}
  if(state.coins<20){$("log").textContent="코인이 부족해! 무료 보상을 받아.";return;}
  state.coins-=20;
- const botPower=Math.max(8,Math.round(12+Math.random()*62+state.wins*1.4));
- const b={name:botNames[Math.floor(Math.random()*botNames.length)],emoji:["🤖","👾","🧠","🧹"][Math.floor(Math.random()*4)],power:botPower,atk:Math.round(botPower*.72+4),def:Math.round(botPower*.3+2),hp:Math.round(botPower*8+35)};
+ const playerPower=Math.max(1,p.power);
+ // Scale opponent to selected fighter, with modest win-based progression and bounded randomness.
+ const difficulty=0.88+Math.min(state.wins,25)*0.012+(Math.random()*0.16-0.08);
+ const botPower=Math.max(8,Math.round(playerPower*difficulty));
+ const b={name:botNames[Math.floor(Math.random()*botNames.length)],emoji:["🤖","👾","🧠","🧹"][Math.floor(Math.random()*4)],power:botPower,atk:Math.max(1,Math.round(botPower*.62+3)),def:Math.max(1,Math.round(botPower*.24+1)),hp:Math.max(20,Math.round(botPower*6.5+20))};
  battle={p,b,ph:p.hp,bh:b.hp,charge:0,lines:["🚨 자동 전투 시작! "+p.name+" vs "+b.name]};
  $("playerEmoji").textContent=p.emoji;$("playerName").textContent=p.name;$("botEmoji").textContent=b.emoji;$("botName").textContent=b.name;
  $("log").textContent=battle.lines[0];$("fight").disabled=true;$("fight").textContent="🥊 자동 전투 진행 중";updateBattleUI();render();
