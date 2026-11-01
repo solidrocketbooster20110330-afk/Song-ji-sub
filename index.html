@@ -102,7 +102,8 @@ function loadGame(){
   state.wins=Number.isFinite(saved.wins)?Math.max(0,saved.wins):0;
   state.units=Array.isArray(saved.units)?saved.units.filter(u=>u&&typeof u==="object"&&tiers.some(t=>t.key===u.tier)&&typeof u.name==="string"&&Number.isFinite(u.power)):[];
   state.selected=state.units.some(u=>u.id===saved.selected)?saved.selected:null;
-  state.pityLegend=Number.isFinite(saved.pityLegend)?Math.max(0,Math.min(99,saved.pityLegend)):Math.max(0,Math.min(99,Number(saved.pity)||0));\n  state.pitySecret=Number.isFinite(saved.pitySecret)?Math.max(0,Math.min(499,saved.pitySecret)):0;
+  state.pityLegend=Number.isFinite(saved.pityLegend)?Math.max(0,Math.min(99,saved.pityLegend)):Math.max(0,Math.min(99,Number(saved.pity)||0));
+  state.pitySecret=Number.isFinite(saved.pitySecret)?Math.max(0,Math.min(499,saved.pitySecret)):0;
   state.daily=!!saved.daily;
   state.xp=Number.isFinite(saved.xp)?Math.max(0,saved.xp):0;
   state.lootLevel=Number.isFinite(saved.lootLevel)?Math.max(1,saved.lootLevel):1;
