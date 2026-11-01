@@ -154,7 +154,6 @@ const ADMIN_CODE="110341";const setAdminMode=(enabled)=>{state.admin=enabled;$("
 $("dexToggle").onclick=()=>{const content=$("dexContent"),open=content.hidden;content.hidden=!open;$("dexToggle").setAttribute("aria-expanded",String(open));$("dexToggle").innerHTML=(open?"－ 접기 · 캐릭터 도감 ":"＋ 더보기 · 캐릭터 도감 ")+'<span id="dexCount" class="sub">'+characterDex.filter(x=>new Set(state.units.map(u=>u.name)).has(x.name)).length+" / "+characterDex.length+" 발견</span>";};
 let autoDrawTimer=null;
 function doDraw(count){
- if(autoDrawTimer)stopAutoDraw();
  const cost=count*50;
  if(!state.admin&&state.coins<cost){
   $("log").textContent="코인이 부족해! "+count+"회 뽑기에는 "+cost+"코인이 필요해.";
