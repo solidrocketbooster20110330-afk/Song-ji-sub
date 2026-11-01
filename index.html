@@ -49,7 +49,14 @@ footer{text-align:center;color:#85859e;font-size:.78rem;padding-top:24px}
 <div class="stat"><small>🪙 보유 코인</small><strong id="coins">100</strong></div><div class="stat"><small>🏆 승리</small><strong id="wins">0</strong></div><div class="stat"><small>🧑‍🤝‍🧑 보유 캐릭터</small><strong id="count">0</strong></div>
 </section>
 <section class="page active" id="page-gacha"><div class="grid">
-<section class="panel"><h2>🎲 캐릭터 뽑기</h2><p class="sub">1회 50 코인 · 첫 시작 코인 100개</p><div class="sub" style="margin-top:8px">전설 천장 <b id="legendPityText">0 / 100</b></div><div class="pity"><span id="pitybar"></span></div><div class="sub">비밀 천장 <b id="secretPityText">0 / 500</b></div><div class="pity"><span id="secretPitybar" style="background:linear-gradient(90deg,#ff6bd6,#ffd166)"></span></div><button class="btn" id="draw">50 코인으로 뽑기!</button><div class="result" id="result"><div class="avatar">❔</div><div><div class="rarity">READY?</div><div class="name">운명의 뽑기</div><div class="statsline">어떤 송지섭이 나올까?</div></div></div><button class="btn secondary" id="daily">🎁 오늘의 코인 받기 (+100)</button><p class="notice">확률: 기본 송지섭(커먼) 55% · 대두 몬스터(레어) 30% · 에픽 10% · 신화 4% · 전설 0.9% · 비밀 0.1%</p></section>
+<section class="panel"><h2>🎲 캐릭터 뽑기</h2><p class="sub">1회 50 코인 · 첫 시작 코인 100개</p><div class="sub" style="margin-top:8px">전설 천장 <b id="legendPityText">0 / 100</b></div><div class="pity"><span id="pitybar"></span></div><div class="sub">비밀 천장 <b id="secretPityText">0 / 500</b></div><div class="pity"><span id="secretPitybar" style="background:linear-gradient(90deg,#ff6bd6,#ffd166)"></span></div><div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin-top:10px">
+<button class="btn draw-count" data-count="1" style="padding:11px 4px">1회</button>
+<button class="btn draw-count" data-count="5" style="padding:11px 4px">5회</button>
+<button class="btn draw-count" data-count="10" style="padding:11px 4px">10회</button>
+<button class="btn draw-count" data-count="100" style="padding:11px 4px">100회</button>
+</div>
+<button class="btn secondary" id="autoDraw" style="margin-top:9px">🔁 자동 뽑기 시작</button>
+<p class="sub" id="drawStatus">1회당 50 코인 · 자동 뽑기는 코인이 부족하면 자동으로 멈춰.</p><div class="result" id="result"><div class="avatar">❔</div><div><div class="rarity">READY?</div><div class="name">운명의 뽑기</div><div class="statsline">어떤 송지섭이 나올까?</div></div></div><button class="btn secondary" id="daily">🎁 오늘의 코인 받기 (+100)</button><p class="notice">확률: 기본 송지섭(커먼) 55% · 대두 몬스터(레어) 30% · 에픽 10% · 신화 4% · 전설 0.9% · 비밀 0.1%</p></section>
 <section class="panel"><h2>🗃️ 내 캐릭터</h2><p class="sub">전투에 내보낼 캐릭터를 선택해!</p><div class="sub" style="margin:8px 0">자동 판매할 등급 (복수 선택 가능)</div><div id="autoSellTiers" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px"><label><input type="checkbox" value="N"> 커먼</label><label><input type="checkbox" value="R"> 레어</label><label><input type="checkbox" value="E"> 에픽</label><label><input type="checkbox" value="L"> 신화</label><label><input type="checkbox" value="X"> 전설</label><label><input type="checkbox" value="S"> 비밀</label></div><button class="btn secondary" id="autoSellOff" style="width:100%;margin-bottom:10px">자동 판매 전부 끄기</button><div class="roster" id="roster"><p class="sub">아직 캐릭터가 없어. 먼저 뽑아 봐!</p></div></section>
 </div></section>
 <section class="page" id="page-dex"><section class="panel" style="margin-top:14px"><button class="btn secondary" id="dexToggle" aria-expanded="false">＋ 더보기 · 캐릭터 도감 <span id="dexCount" class="sub">0 / 21 발견</span></button><div id="dexContent" hidden><p class="sub">한 번이라도 뽑은 캐릭터가 등록돼! 미발견 캐릭터는 실루엣으로 표시.</p><div id="dex" class="dex"></div></div></section></section>
@@ -145,7 +152,55 @@ function animateHit(attacker,defender){
 
 const ADMIN_CODE="110341";const setAdminMode=(enabled)=>{state.admin=enabled;$("adminStatus").textContent=enabled?"관리자 모드 활성화 · 무한 코인":"관리자 모드 비활성";$("adminStatus").style.color=enabled?"#6ce4a3":"";$("adminLogin").textContent=enabled?"관리자 모드 끄기":"확인";$("adminCode").hidden=enabled;$("log").textContent=enabled?"🔓 관리자 모드 활성화! 코인을 소모하지 않고 이용할 수 있어.":"관리자 모드를 비활성화했어. 이제 코인이 정상 소모돼.";render();};$("adminLogin").onclick=()=>{if(state.admin){setAdminMode(false);return;}const entered=$("adminCode").value.trim();if(entered===ADMIN_CODE){$("adminCode").value="";setAdminMode(true);}else{$("adminStatus").textContent="코드가 틀렸어. 다시 확인해 줘.";$("adminStatus").style.color="#ff647c";}};$("adminCode").addEventListener("keydown",e=>{if(e.key==="Enter")$("adminLogin").click();});$("settingsToggle").onclick=()=>{const content=$("settingsContent"),open=content.hidden;content.hidden=!open;$("settingsToggle").setAttribute("aria-expanded",String(open));};
 $("dexToggle").onclick=()=>{const content=$("dexContent"),open=content.hidden;content.hidden=!open;$("dexToggle").setAttribute("aria-expanded",String(open));$("dexToggle").innerHTML=(open?"－ 접기 · 캐릭터 도감 ":"＋ 더보기 · 캐릭터 도감 ")+'<span id="dexCount" class="sub">'+characterDex.filter(x=>new Set(state.units.map(u=>u.name)).has(x.name)).length+" / "+characterDex.length+" 발견</span>";};
-$("draw").onclick=()=>{if(!state.admin&&state.coins<50)return;if(!state.admin)state.coins-=50;let u=makeUnit();if(!state.discovered.includes(u.name))state.discovered.push(u.name);const autoTiers=[...document.querySelectorAll("#autoSellTiers input:checked")].map(el=>el.value);if(autoTiers.includes(u.tier)){const prices={N:20,R:50,E:80,L:150,X:400,S:1000};const price=prices[u.tier]||20;if(!state.admin)state.coins+=price;showResult(u);render();$("log").textContent="🪙 자동 판매! "+u.name+" ("+u.label+") · 코인 +"+price+"개. 도감에는 등록됐어.";return;}state.units.push(u);if(!state.selected)state.selected=u.id;showResult(u);render();$("log").textContent="🎉 "+u.label+" 등급 획득! "+u.name+"의 전투력은 "+u.power+".";};
+let autoDrawTimer=null;
+function doDraw(count){
+ if(autoDrawTimer)stopAutoDraw();
+ const cost=count*50;
+ if(!state.admin&&state.coins<cost){
+  $("log").textContent="코인이 부족해! "+count+"회 뽑기에는 "+cost+"코인이 필요해.";
+  $("drawStatus").textContent="코인 부족 · 필요 코인 "+cost;
+  return;
+ }
+ if(!state.admin)state.coins-=cost;
+ const autoTiers=[...document.querySelectorAll("#autoSellTiers input:checked")].map(el=>el.value);
+ const counts={N:0,R:0,E:0,L:0,X:0,S:0},sold={N:0,R:0,E:0,L:0,X:0,S:0};
+ const prices={N:20,R:50,E:80,L:150,X:400,S:1000};
+ let last=null,added=0,soldTotal=0;
+ for(let i=0;i<count;i++){
+  const u=makeUnit();last=u;counts[u.tier]++;
+  if(!state.discovered.includes(u.name))state.discovered.push(u.name);
+  if(autoTiers.includes(u.tier)){
+   sold[u.tier]++;soldTotal++;if(!state.admin)state.coins+=prices[u.tier];
+  }else{
+   state.units.push(u);added++;if(!state.selected)state.selected=u.id;
+  }
+ }
+ if(last)showResult(last);
+ render();
+ const labels={N:"커먼",R:"레어",E:"에픽",L:"신화",X:"전설",S:"비밀"};
+ const summary=Object.keys(counts).filter(k=>counts[k]).map(k=>labels[k]+" "+counts[k]+"개").join(" · ");
+ const soldSummary=Object.keys(sold).filter(k=>sold[k]).map(k=>labels[k]+" "+sold[k]+"개").join(" · ");
+ $("log").textContent="🎉 "+count+"회 뽑기 완료! "+summary+(soldTotal?"\n🪙 자동 판매 "+soldTotal+"개 ("+soldSummary+")":"")+"\n보유 캐릭터 +"+added+"개";
+ $("drawStatus").textContent=count+"회 완료 · "+(state.admin?"코인 소모 없음":"뽑기 비용 "+cost+"코인")+(soldTotal?" · 자동 판매 "+soldTotal+"개":"");
+}
+function stopAutoDraw(){
+ if(autoDrawTimer){clearInterval(autoDrawTimer);autoDrawTimer=null;}
+ $("autoDraw").textContent="🔁 자동 뽑기 시작";
+ $("drawStatus").textContent="자동 뽑기 중지됨";
+}
+document.querySelectorAll(".draw-count").forEach(btn=>btn.addEventListener("click",()=>doDraw(Number(btn.dataset.count))));
+$("autoDraw").onclick=()=>{
+ if(autoDrawTimer){stopAutoDraw();return;}
+ if(!state.admin&&state.coins<50){$("log").textContent="코인이 부족해!";return;}
+ $("autoDraw").textContent="⏹ 자동 뽑기 중지";
+ $("drawStatus").textContent="자동 뽑기 진행 중 · 0.35초마다 1회";
+ autoDrawTimer=setInterval(()=>{
+  if(!state.admin&&state.coins<50){stopAutoDraw();$("log").textContent="코인이 부족해 자동 뽑기가 멈췄어.";return;}
+  doDraw(1);
+  if(!state.admin&&state.coins<50)stopAutoDraw();
+ },350);
+};
+
 $("autoSellOff").onclick=()=>{document.querySelectorAll("#autoSellTiers input").forEach(el=>el.checked=false);$("log").textContent="자동 판매 설정을 모두 껐어.";};
 $("daily").onclick=()=>{if(state.daily){$("log").textContent="오늘 보상은 이미 받았어. 내일 다시 와!";return}if(!state.admin)state.coins+=100;state.daily=true;$("daily").disabled=true;$("daily").textContent="✅ 오늘 보상 수령 완료";render();$("log").textContent="🎁 코인 100개 지급! 오늘도 운빨 대폭발 가자."};
 let battle=null,battleTimer=null,chainTimer=null;
